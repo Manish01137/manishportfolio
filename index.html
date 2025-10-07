@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Manish — Full-Stack Developer</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <!-- left floating nav -->
+ <!-- Floating Neon Side Navigation -->
+<!-- Floating Neon Side Navigation -->
+<aside class="left-nav" id="sideNav" aria-label="Main navigation">
+  <div class="nav-glow"></div>
+  <button class="nav-btn active" data-target="home" data-tooltip="Home">🏠</button>
+  <button class="nav-btn" data-target="about" data-tooltip="About">👤</button>
+  <button class="nav-btn" data-target="skills" data-tooltip="Skills">&lt;/&gt;</button>
+  <button class="nav-btn" data-target="projects" data-tooltip="Projects">📦</button>
+  <button class="nav-btn" data-target="contact" data-tooltip="Contact">✉️</button>
+</aside>
+
+ 
+<script>
+  const sideNav = document.getElementById('sideNav');
+  setTimeout(() => {
+    sideNav.classList.add('show');
+  }, 600);
+
+  // Optional: subtle hover sound or bounce feedback
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+      btn.style.transition = 'transform 0.2s ease';
+      btn.style.transform = 'scale(1.3)';
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'scale(1)';
+    });
+  });
+
+</script>
+
+
+  <main id="main">
+    <!-- HERO -->
+   <!-- HERO (upgraded) -->
+<section id="home" class="section hero">
+  <!-- animated layered background for depth -->
+  <div class="hero-layers" aria-hidden="true">
+    <div class="layer layer--a"></div>
+    <div class="layer layer--b"></div>
+    <div class="layer layer--c"></div>
+    <canvas id="heroCanvas" class="hero-canvas"></canvas>
+  </div>
+
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <h1 class="big-title">
+        <span class="greet">Hi, I'm</span>
+        <span class="name">Manish</span>
+      </h1>
+
+      <p class="subtitle">Full-Stack Developer &amp; 3D Creative</p>
+      <p class="lead">Crafting immersive digital experiences with cutting-edge technologies and bold design.</p>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary cta-left">See My Work</a>
+        <a href="#contact" class="btn btn-ghost cta-right">Let's Talk</a>
+      </div>
+    </div>
+
+    <!-- animated decorative shapes — CSS/JS will move these -->
+    <div class="decor decor--center" aria-hidden="true">
+      <div class="decor-ring"></div>
+      <div class="decor-orb"></div>
+      <div class="decor-rect"></div>
+      <div class="decor-diamond"></div>
+    </div>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">
+    <div class="arrow">↓</div>
+  </div>
+</section>
+
+<script>
+  /* ---------- Hero interactions & canvas particles ---------- */
+(function heroEnhancements(){
+  const hero = document.querySelector('.hero');
+  const heroInner = document.querySelector('.hero-inner');
+  const canvas = document.getElementById('heroCanvas');
+  const decorRing = document.querySelector('.decor-ring');
+
+  // 1) Simple mouse parallax -> push layers & decorative shapes
+  if (hero) {
+    hero.addEventListener('mousemove', (e) => {
+      const r = hero.getBoundingClientRect();
+      const mx = (e.clientX - (r.left + r.width/2)) / (r.width/2);
+      const my = (e.clientY - (r.top + r.height/2)) / (r.height/2);
+
+      // tilt title and subtle translations
+      const nameEl = hero.querySelector('.name');
+      if (nameEl) {
+        nameEl.style.transform = `translate3d(${mx*8}px, ${-my*6}px, 0)`;
+      }
+
+      // move ring and shapes
+      if (decorRing) {
+        decorRing.style.transform = `translate(calc(-50% + ${mx*18}px), calc(-50% + ${my*12}px)) rotate(${mx*6}deg)`;
+      }
+    });
+
+    hero.addEventListener('mouseleave', () => {
+      const nameEl = hero.querySelector('.name');
+      if (nameEl) nameEl.style.transform = '';
+      if (decorRing) decorRing.style.transform = 'translate(-50%,-50%) rotate(0deg)';
+    });
+  }
+
+  // 2) Lightweight canvas particle glow (no external libs)
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas(){
+      canvas.width = canvas.clientWidth * devicePixelRatio;
+      canvas.height = canvas.clientHeight * devicePixelRatio;
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // particles
+    const particles = Array.from({length:16}).map(() => ({
+      x: Math.random(),
+      y: Math.random(),
+      r: 8 + Math.random()*28,
+      vx: (Math.random()-0.5) * 0.0008,
+      vy: (Math.random()-0.5) * 0.0008,
+      hue: 180 + Math.random()*200
+    }));
+
+    let last = performance.now();
+    function step(now){
+      const dt = (now - last);
+      last = now;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      const W = canvas.clientWidth;
+      const H = canvas.clientHeight;
+      particles.forEach(p=>{
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        if (p.x < -0.15) p.x = 1.15;
+        if (p.x > 1.15) p.x = -0.15;
+        if (p.y < -0.15) p.y = 1.15;
+        if (p.y > 1.15) p.y = -0.15;
+
+        const gx = p.x * W;
+        const gy = p.y * H;
+
+        // radial gradient soft blob
+        const g = ctx.createRadialGradient(gx, gy, 0, gx, gy, p.r*2.4);
+        g.addColorStop(0, `hsla(${p.hue},90%,70%,0.17)`);
+        g.addColorStop(0.3, `hsla(${p.hue},85%,60%,0.08)`);
+        g.addColorStop(1, `hsla(${p.hue},80%,55%,0)`);
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(gx, gy, p.r*2.2, 0, Math.PI*2);
+        ctx.fill();
+      });
+
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // 3) subtle entrance animation sequencing for hero pieces
+  setTimeout(()=> {
+    document.querySelectorAll('.hero .big-title,.hero .subtitle,.hero .lead').forEach((el,i)=>{
+      el.style.opacity = 0;
+      el.style.transform = 'translateY(18px)';
+      setTimeout(()=> {
+        el.style.transition = 'all 700ms cubic-bezier(.2,.9,.3,1)';
+        el.style.opacity = 1;
+        el.style.transform = 'translateY(0)';
+      }, 120 + i*110);
+    });
+  }, 120);
+
+})();
+
+</script>
+
+    <!-- ABOUT -->
+    <section id="about" class="section about">
+      <!-- glowing background -->
+      <div class="about-bg"></div>
+    
+      <div class="container grid-two about-grid">
+        <!-- LEFT: Photo -->
+        <div class="photo-card">
+          <div class="photo-frame" data-tilt>
+            <img src="WhatsApp Image 2025-04-13 at 14.55.11.jpeg" alt="Manish photo" class="profile-photo" />
+            <div class="photo-glow"></div>
+            <div class="photo-ring"></div>
+          </div>
+    
+          <div class="social-row">
+            <a href="https://github.com/Manish01137" class="social" aria-label="GitHub">🐙</a>
+            <a href="https://www.linkedin.com/in/manish-beniwal-07aa7b2a0/" class="social" aria-label="LinkedIn">💼</a>
+            <a href="mailto:manishbeniwal349@gmail.com" class="social" aria-label="Email">✉️</a>
+          </div>
+        </div>
+    
+        <!-- RIGHT: Info -->
+        <div class="about-right">
+          <h2 class="reveal-title">About Me</h2>
+    
+          <p class="lead-muted reveal-text">
+            Passionate developer blending technical excellence with creative vision.
+            With over <strong>1 year</strong> of building scalable web applications
+            and immersive web experiences — I focus on performance, accessibility,
+            and delightful interactions.
+          </p>
+    
+          <div class="stats reveal-stats">
+            <div class="stat card stat-anim" data-target="20">
+              <div class="stat-num"><span class="count">0</span>+</div>
+              <div class="stat-label">Projects Delivered</div>
+            </div>
+    
+            <div class="stat card stat-anim" data-target="8">
+              <div class="stat-num"><span class="count">0</span>+</div>
+              <div class="stat-label">Happy Clients</div>
+            </div>
+    
+            <div class="stat card stat-anim" data-target="1">
+              <div class="stat-num"><span class="count">0</span> yr</div>
+              <div class="stat-label">Experience</div>
+            </div>
+          </div>
+    
+          <div class="about-actions reveal-cta">
+            <a class="btn btn-primary" href="#projects">View Projects</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      /* ----- About section: reveal, tilt, lazy photo, counters ----- */
+/* ===== About Section Animation ===== */
+(function(){
+  const about = document.getElementById('about');
+  if(!about) return;
+
+  // Intersection observer for reveal
+  const revealEls = about.querySelectorAll('.reveal-title, .reveal-text, .reveal-stats, .reveal-cta');
+  const stats = about.querySelectorAll('.stat-anim');
+
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        revealEls.forEach((el,i)=>{
+          setTimeout(()=> el.classList.add('is-visible'), i*150);
+        });
+        stats.forEach(stat=> runCounter(stat));
+        observer.disconnect();
+      }
+    });
+  }, {threshold:0.4});
+
+  observer.observe(about);
+
+  // Counter animation
+  function runCounter(el){
+    const target = +el.getAttribute('data-target');
+    const span = el.querySelector('.count');
+    if(!span) return;
+    let start = 0;
+    const step = ()=>{
+      start += Math.ceil((target - start)/10);
+      span.textContent = start;
+      if(start < target) requestAnimationFrame(step);
+      else span.textContent = target;
+    };
+    requestAnimationFrame(step);
+  }
+
+  // 3D tilt on hover
+  const frame = about.querySelector('.photo-frame');
+  if(frame){
+    frame.addEventListener('mousemove',(e)=>{
+      const rect = frame.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      frame.style.transform = `rotateY(${x*10}deg) rotateX(${-y*10}deg)`;
+    });
+    frame.addEventListener('mouseleave',()=>{
+      frame.style.transform = `rotateY(0deg) rotateX(0deg)`;
+    });
+  }
+})();
+
+
+    </script>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section skills">
+      <div class="skills-bg" aria-hidden="true"></div>
+    
+      <div class="container">
+        <header class="skills-header">
+          <h2 class="reveal-title">Skills &amp; Expertise — My Tech Galaxy</h2>
+          <p class="lead-muted reveal-text">
+            Explore my technical universe — filter by category to see my strengths 🌌
+          </p>
+    
+          <!-- Filter buttons -->
+          <div class="skills-filter">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="frontend">Frontend</button>
+            <button class="filter-btn" data-category="backend">Backend</button>
+            <button class="filter-btn" data-category="tools">Tools</button>
+          </div>
+        </header>
+    
+        <!-- Skill cards -->
+        <div class="skills-grid">
+          <!-- FRONTEND -->
+          <div class="skill-card" data-category="frontend" data-skill="HTML" data-level="95">
+            <div class="skill-icon">🌐</div><div class="skill-title">HTML</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <div class="skill-card" data-category="frontend" data-skill="CSS" data-level="90">
+            <div class="skill-icon">🎨</div><div class="skill-title">CSS</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <div class="skill-card" data-category="frontend" data-skill="JavaScript" data-level="92">
+            <div class="skill-icon">⚡</div><div class="skill-title">JavaScript</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <div class="skill-card" data-category="frontend" data-skill="React.js" data-level="90">
+            <div class="skill-icon">⚛️</div><div class="skill-title">React.js</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <div class="skill-card" data-category="frontend" data-skill="Three.js" data-level="75">
+            <div class="skill-icon">🌀</div><div class="skill-title">Three.js</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <!-- BACKEND -->
+          <div class="skill-card" data-category="backend" data-skill="Node.js" data-level="85">
+            <div class="skill-icon">🟢</div><div class="skill-title">Node.js</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <div class="skill-card" data-category="backend" data-skill="Express.js" data-level="85">
+            <div class="skill-icon">🚀</div><div class="skill-title">Express.js</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <div class="skill-card" data-category="backend" data-skill="MongoDB" data-level="80">
+            <div class="skill-icon">🍃</div><div class="skill-title">MongoDB</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <div class="skill-card" data-category="backend" data-skill="SQL" data-level="75">
+            <div class="skill-icon">🗄️</div><div class="skill-title">SQL</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <div class="skill-card" data-category="backend" data-skill="REST API" data-level="80">
+            <div class="skill-icon">🔗</div><div class="skill-title">REST API</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <!-- TOOLS -->
+          <div class="skill-card" data-category="tools" data-skill="AWS" data-level="70">
+            <div class="skill-icon">☁️</div><div class="skill-title">AWS</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <div class="skill-card" data-category="tools" data-skill="GitHub" data-level="85">
+            <div class="skill-icon">🐙</div><div class="skill-title">GitHub</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+    
+          <div class="skill-card" data-category="tools" data-skill="VS Code" data-level="90">
+            <div class="skill-icon">🧩</div><div class="skill-title">VS Code</div>
+            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+
+    <script>
+      /* === Skills Animation === */
+/* === Skills: reveal + animated percentage meters === */
+(function(){
+  const skillsSection = document.getElementById('skills');
+  if(!skillsSection) return;
+
+  const cards = Array.from(skillsSection.querySelectorAll('.skill-card'));
+
+  // IntersectionObserver to reveal cards and animate meters
+  const obs = new IntersectionObserver((entries, o) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const card = entry.target;
+        card.classList.add('is-visible');
+
+        // animate percentage meter
+        const fill = card.querySelector('.skill-fill');
+        const percent = card.getAttribute('data-level') || card.dataset.level || 0;
+        const percentLabel = card.querySelector('.skill-percent');
+        if(fill && percent){
+          // small timeout to allow CSS transition stagger to take effect
+          setTimeout(()=>{
+            fill.style.width = percent + '%';
+            // animate numeric counter in percent label
+            if(percentLabel){
+              let start = 0;
+              const duration = 1000; // ms
+              const startTime = performance.now();
+              (function animate(now){
+                const t = Math.min(1, (now - startTime)/duration);
+                // easeOutCubic
+                const eased = 1 - Math.pow(1 - t, 3);
+                const current = Math.round(eased * percent);
+                percentLabel.textContent = current + '%';
+                if(t < 1) requestAnimationFrame(animate);
+              })(performance.now());
+            }
+          }, 120);
+        }
+
+        o.unobserve(card);
+      }
+    });
+  }, { threshold: 0.18 });
+
+  cards.forEach(c => obs.observe(c));
+
+  // Hover tilt for each card
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `rotateY(${x * 10}deg) rotateX(${ -y * 8 }deg) scale(1.03)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+})();
+
+    </script>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section projects">
+      <div class="projects-bg" aria-hidden="true"></div>
+    
+      <div class="container">
+        <header class="projects-header">
+          <h2 class="reveal-title">Featured Projects</h2>
+          <p class="lead-muted reveal-text">
+            Explore my latest creations — crafted with modern tools and creative precision.
+          </p>
+        </header>
+    
+        <div class="projects-grid">
+          <!-- Project 1 -->
+          <article class="project card reveal-project" data-theme="blue">
+            <div class="project-media pattern pattern-1"></div>
+            <div class="project-body">
+              <h3>KVS Academy</h3>
+              <p>
+                A modern educational platform designed to simplify online learning with interactive lessons, 
+                student progress tracking, and live sessions for teachers.
+              </p>
+              <div class="tags"><span>React</span><span>Firebase</span><span>CSS</span></div>
+              <a href="https://www.kvsacademy.org" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-link">Live Demo</a>
+            </div>
+          </article>
+    
+          <!-- Project 2 -->
+          <article class="project card reveal-project" data-theme="purple">
+            <div class="project-media pattern pattern-2"></div>
+            <div class="project-body">
+              <h3>Zorko Franchise</h3>
+              <p>
+                A full-stack web application for managing franchise operations, featuring product listings, 
+                real-time analytics, and integrated payment systems.
+              </p>
+              <div class="tags"><span>Node.js</span><span>Express</span><span>MongoDB</span></div>
+              <a href="https://zorkofranchise.in" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-link">Live Demo</a>
+            </div>
+          </article>
+    
+          <!-- Project 3 -->
+          <article class="project card reveal-project" data-theme="pink">
+            <div class="project-media pattern pattern-3"></div>
+            <div class="project-body">
+              <h3>Astrology Insights</h3>
+              <p>
+                A personalized astrology web app offering daily predictions, birth-chart analysis, 
+                and AI-based horoscope recommendations.
+              </p>
+              <div class="tags"><span>Next.js</span><span>API</span><span>OpenAI</span></div>
+              <a href="https://thegurujibengali.online" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-link">Live Demo</a>
+            </div>
+          </article>
+    
+          <!-- Project 4 -->
+          <article class="project card reveal-project" data-theme="green">
+            <div class="project-media pattern pattern-4"></div>
+            <div class="project-body">
+              <h3>Mind-Mint Media</h3>
+              <p>
+                A sleek digital media portfolio for content creators — featuring interactive galleries, 
+                video integration, and a CMS-powered blog.
+              </p>
+              <div class="tags"><span>React</span><span>GSAP</span><span>Firebase</span></div>
+              <a href="https://mindmintmedia.in" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-link">Live Demo</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    
+    
+    
+    <script>
+      /* === Projects: Reveal on Scroll Animation === */
+/* === Projects Reveal Animation === */
+(function(){
+  const projects = document.querySelectorAll('.project.card');
+  const obs = new IntersectionObserver((entries, o)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-visible');
+        o.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  projects.forEach(p => obs.observe(p));
+})();
+
+
+    </script>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section contact">
+      <div class="container grid-two">
+        <div class="contact-left">
+          <h2>Let's Create Together</h2>
+          <p class="lead-muted">Have a project in mind? Let's discuss how we can bring your vision to life.</p>
+          <div class="glass contact-form card">
+            <form id="contactForm">
+              <label>Name<input type="text" name="name" placeholder="Your name" required></label>
+              <label>Email<input type="email" name="email" placeholder="you@email.com" required></label>
+              <label>Message<textarea name="message" placeholder="Tell me about your project..." rows="6"></textarea></label>
+              <button class="btn btn-primary" type="submit">Send Message ✈️</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="contact-right">
+          <div class="glass card contact-info">
+            <h3>Available for contract & full-time</h3>
+            <p>Open to remote and hybrid opportunities. I enjoy building products from concept to launch.</p>
+            <ul>
+              <li>Location: Remote</li>
+              <li>Role: Full-Stack Developer</li>
+              <li>Stack: React, Node, Next, Three.js</li>
+            </ul>
+            <a href="mailto:your.email@example.com" class="btn btn-ghost">Email Me</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <small>© <span id="year"></span> Manish — Full-Stack Developer</small>
+      </div>
+    </footer>
+  </main>
+
+  <script src="index.js"></script>
+</body>
+</html>

@@ -1,612 +1,339 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Manish — Full-Stack Developer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Full Stack Developer Portfolio</title>
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-  <!-- left floating nav -->
- <!-- Floating Neon Side Navigation -->
-<!-- Floating Neon Side Navigation -->
-<aside class="left-nav" id="sideNav" aria-label="Main navigation">
-  <div class="nav-glow"></div>
-  <button class="nav-btn active" data-target="home" data-tooltip="Home">🏠</button>
-  <button class="nav-btn" data-target="about" data-tooltip="About">👤</button>
-  <button class="nav-btn" data-target="skills" data-tooltip="Skills">&lt;/&gt;</button>
-  <button class="nav-btn" data-target="projects" data-tooltip="Projects">📦</button>
-  <button class="nav-btn" data-target="contact" data-tooltip="Contact">✉️</button>
-</aside>
 
- 
-<script>
-  const sideNav = document.getElementById('sideNav');
-  setTimeout(() => {
-    sideNav.classList.add('show');
-  }, 600);
+  <!-- Navbar -->
+ <!-- Replace existing header with this -->
+<header class="navbar" id="site-navbar">
+  <div class="nav-inner">
+    <a href="#home" class="logo" aria-label="Homepage">
+      <span class="logo-icon">💻</span>
+      <span class="logo-text" aria-hidden="true">Portfolio</span>
+    </a>
 
-  // Optional: subtle hover sound or bounce feedback
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('mouseenter', () => {
-      btn.style.transition = 'transform 0.2s ease';
-      btn.style.transform = 'scale(1.3)';
-    });
-    btn.addEventListener('mouseleave', () => {
-      btn.style.transform = 'scale(1)';
-    });
-  });
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle navigation">
+      <span class="hamburger">
+        <span class="bar bar1"></span>
+        <span class="bar bar2"></span>
+        <span class="bar bar3"></span>
+      </span>
+    </button>
 
-</script>
-
-
-  <main id="main">
-    <!-- HERO -->
-   <!-- HERO (upgraded) -->
-<section id="home" class="section hero">
-  <!-- animated layered background for depth -->
-  <div class="hero-layers" aria-hidden="true">
-    <div class="layer layer--a"></div>
-    <div class="layer layer--b"></div>
-    <div class="layer layer--c"></div>
-    <canvas id="heroCanvas" class="hero-canvas"></canvas>
+    <nav id="primaryNav" class="nav-links" role="navigation">
+      <ul>
+        <li><a href="#home" class="nav-link">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#work" class="nav-link">Work</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
   </div>
+</header>
 
-  <div class="container hero-inner">
+      
+
+
+  <!-- Hero Section -->
+   
+  <section id="home" class="hero">
+    <!-- inside your <section id="home" class="hero"> ... -->
+<!-- put this as the first element inside the hero so it sits behind content -->
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<!-- existing content follows -->
+<div class="hero-content">
+  <!-- ... -->
+</div>
+
     <div class="hero-content">
-      <h1 class="big-title">
-        <span class="greet">Hi, I'm</span>
-        <span class="name">Manish</span>
+      <p class="intro fade-in">👋 Welcome to my portfolio</p>
+      <h1 class="hero-title slide-up">
+        Hi, I'm <span class="gradient-text">Manish</span><br>
+        A Passionate <span class="gradient-text">Full Stack Developer</span>
       </h1>
-
-      <p class="subtitle">Full-Stack Developer &amp; 3D Creative</p>
-      <p class="lead">Crafting immersive digital experiences with cutting-edge technologies and bold design.</p>
-
-      <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary cta-left">See My Work</a>
-        <a href="#contact" class="btn btn-ghost cta-right">Let's Talk</a>
+      <p class="tagline fade-in-delay">
+        I build elegant, scalable web applications using modern technologies.<br>
+        Turning complex ideas into simple, efficient, and visually stunning solutions.
+      </p>
+  
+      <div class="buttons slide-up-delay">
+        <a href="#work" class="btn primary glow">🚀 View My Work</a>
+        <a href="#contact" class="btn secondary">💬 Contact Me</a>
       </div>
     </div>
-
-    <!-- animated decorative shapes — CSS/JS will move these -->
-    <div class="decor decor--center" aria-hidden="true">
-      <div class="decor-ring"></div>
-      <div class="decor-orb"></div>
-      <div class="decor-rect"></div>
-      <div class="decor-diamond"></div>
+  
+    <!-- Floating background shapes -->
+    <div class="floating-circle circle1"></div>
+    <div class="floating-circle circle2"></div>
+    <div class="floating-circle circle3"></div>
+  
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+      <span>Scroll Down</span>
+      <div class="mouse"></div>
     </div>
-  </div>
+  </section>
+  
 
-  <div class="scroll-hint" aria-hidden="true">
-    <div class="arrow">↓</div>
-  </div>
-</section>
-
-<script>
-  /* ---------- Hero interactions & canvas particles ---------- */
-(function heroEnhancements(){
-  const hero = document.querySelector('.hero');
-  const heroInner = document.querySelector('.hero-inner');
-  const canvas = document.getElementById('heroCanvas');
-  const decorRing = document.querySelector('.decor-ring');
-
-  // 1) Simple mouse parallax -> push layers & decorative shapes
-  if (hero) {
-    hero.addEventListener('mousemove', (e) => {
-      const r = hero.getBoundingClientRect();
-      const mx = (e.clientX - (r.left + r.width/2)) / (r.width/2);
-      const my = (e.clientY - (r.top + r.height/2)) / (r.height/2);
-
-      // tilt title and subtle translations
-      const nameEl = hero.querySelector('.name');
-      if (nameEl) {
-        nameEl.style.transform = `translate3d(${mx*8}px, ${-my*6}px, 0)`;
-      }
-
-      // move ring and shapes
-      if (decorRing) {
-        decorRing.style.transform = `translate(calc(-50% + ${mx*18}px), calc(-50% + ${my*12}px)) rotate(${mx*6}deg)`;
-      }
-    });
-
-    hero.addEventListener('mouseleave', () => {
-      const nameEl = hero.querySelector('.name');
-      if (nameEl) nameEl.style.transform = '';
-      if (decorRing) decorRing.style.transform = 'translate(-50%,-50%) rotate(0deg)';
-    });
-  }
-
-  // 2) Lightweight canvas particle glow (no external libs)
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    function resizeCanvas(){
-      canvas.width = canvas.clientWidth * devicePixelRatio;
-      canvas.height = canvas.clientHeight * devicePixelRatio;
-      ctx.scale(devicePixelRatio, devicePixelRatio);
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    // particles
-    const particles = Array.from({length:16}).map(() => ({
-      x: Math.random(),
-      y: Math.random(),
-      r: 8 + Math.random()*28,
-      vx: (Math.random()-0.5) * 0.0008,
-      vy: (Math.random()-0.5) * 0.0008,
-      hue: 180 + Math.random()*200
-    }));
-
-    let last = performance.now();
-    function step(now){
-      const dt = (now - last);
-      last = now;
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      const W = canvas.clientWidth;
-      const H = canvas.clientHeight;
-      particles.forEach(p=>{
-        p.x += p.vx * dt;
-        p.y += p.vy * dt;
-        if (p.x < -0.15) p.x = 1.15;
-        if (p.x > 1.15) p.x = -0.15;
-        if (p.y < -0.15) p.y = 1.15;
-        if (p.y > 1.15) p.y = -0.15;
-
-        const gx = p.x * W;
-        const gy = p.y * H;
-
-        // radial gradient soft blob
-        const g = ctx.createRadialGradient(gx, gy, 0, gx, gy, p.r*2.4);
-        g.addColorStop(0, `hsla(${p.hue},90%,70%,0.17)`);
-        g.addColorStop(0.3, `hsla(${p.hue},85%,60%,0.08)`);
-        g.addColorStop(1, `hsla(${p.hue},80%,55%,0)`);
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.arc(gx, gy, p.r*2.2, 0, Math.PI*2);
-        ctx.fill();
-      });
-
-      requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-
-  // 3) subtle entrance animation sequencing for hero pieces
-  setTimeout(()=> {
-    document.querySelectorAll('.hero .big-title,.hero .subtitle,.hero .lead').forEach((el,i)=>{
-      el.style.opacity = 0;
-      el.style.transform = 'translateY(18px)';
-      setTimeout(()=> {
-        el.style.transition = 'all 700ms cubic-bezier(.2,.9,.3,1)';
-        el.style.opacity = 1;
-        el.style.transform = 'translateY(0)';
-      }, 120 + i*110);
-    });
-  }, 120);
-
-})();
-
-</script>
-
-    <!-- ABOUT -->
-    <section id="about" class="section about">
-      <!-- glowing background -->
-      <div class="about-bg"></div>
-    
-      <div class="container grid-two about-grid">
-        <!-- LEFT: Photo -->
-        <div class="photo-card">
-          <div class="photo-frame" data-tilt>
-            <img src="WhatsApp Image 2025-04-13 at 14.55.11.jpeg" alt="Manish photo" class="profile-photo" />
-            <div class="photo-glow"></div>
-            <div class="photo-ring"></div>
-          </div>
-    
-          <div class="social-row">
-            <a href="https://github.com/Manish01137" class="social" aria-label="GitHub">🐙</a>
-            <a href="https://www.linkedin.com/in/manish-beniwal-07aa7b2a0/" class="social" aria-label="LinkedIn">💼</a>
-            <a href="mailto:manishbeniwal349@gmail.com" class="social" aria-label="Email">✉️</a>
-          </div>
-        </div>
-    
-        <!-- RIGHT: Info -->
-        <div class="about-right">
-          <h2 class="reveal-title">About Me</h2>
-    
-          <p class="lead-muted reveal-text">
-            Passionate developer blending technical excellence with creative vision.
-            With over <strong>1 year</strong> of building scalable web applications
-            and immersive web experiences — I focus on performance, accessibility,
-            and delightful interactions.
-          </p>
-    
-          <div class="stats reveal-stats">
-            <div class="stat card stat-anim" data-target="20">
-              <div class="stat-num"><span class="count">0</span>+</div>
-              <div class="stat-label">Projects Delivered</div>
-            </div>
-    
-            <div class="stat card stat-anim" data-target="8">
-              <div class="stat-num"><span class="count">0</span>+</div>
-              <div class="stat-label">Happy Clients</div>
-            </div>
-    
-            <div class="stat card stat-anim" data-target="1">
-              <div class="stat-num"><span class="count">0</span> yr</div>
-              <div class="stat-label">Experience</div>
-            </div>
-          </div>
-    
-          <div class="about-actions reveal-cta">
-            <a class="btn btn-primary" href="#projects">View Projects</a>
-          </div>
+  <!-- About Section -->
+  <section id="about" class="about">
+    <!-- Star background -->
+    <canvas id="about-starfield" aria-hidden="true"></canvas>
+  
+    <div class="about-container">
+      <div class="about-text fade-in-left">
+        <h2>
+          Passionate About Creating
+          <span class="gradient-text">Digital Excellence</span>
+        </h2>
+  
+        <p>
+          I'm a <span class="highlight">Full-Stack Developer</span> with a strong passion 
+          for crafting beautiful, functional, and scalable web applications. 
+          My journey began with curiosity about how things work, evolving into a 
+          deep love for creating seamless digital experiences powered by clean and efficient code.
+        </p>
+  
+        <p>
+          I specialize in turning ideas into elegant, interactive solutions that 
+          merge design and functionality — whether it’s developing robust backend systems 
+          or building pixel-perfect user interfaces.
+        </p>
+  
+        <ul class="details fade-in-delay">
+          <li><strong>🌍 Location:</strong> San Francisco, CA</li>
+          <li><strong>💼 Experience:</strong> 5+ Years</li>
+          <li><strong>🚀 Availability:</strong> <span class="available">Available for Projects</span></li>
+        </ul>
+  
+        <a href="#contact" class="btn primary glow">Let’s Connect</a>
+      </div>
+  
+      <div class="about-img slide-up">
+        <div class="img-wrapper">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475" alt="Coding Setup" />
+          <div class="img-overlay"></div>
         </div>
       </div>
-    </section>
-    
-    <script>
-      /* ----- About section: reveal, tilt, lazy photo, counters ----- */
-/* ===== About Section Animation ===== */
-(function(){
-  const about = document.getElementById('about');
-  if(!about) return;
+    </div>
+  </section>
+  
 
-  // Intersection observer for reveal
-  const revealEls = about.querySelectorAll('.reveal-title, .reveal-text, .reveal-stats, .reveal-cta');
-  const stats = about.querySelectorAll('.stat-anim');
-
-  const observer = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        revealEls.forEach((el,i)=>{
-          setTimeout(()=> el.classList.add('is-visible'), i*150);
-        });
-        stats.forEach(stat=> runCounter(stat));
-        observer.disconnect();
-      }
-    });
-  }, {threshold:0.4});
-
-  observer.observe(about);
-
-  // Counter animation
-  function runCounter(el){
-    const target = +el.getAttribute('data-target');
-    const span = el.querySelector('.count');
-    if(!span) return;
-    let start = 0;
-    const step = ()=>{
-      start += Math.ceil((target - start)/10);
-      span.textContent = start;
-      if(start < target) requestAnimationFrame(step);
-      else span.textContent = target;
-    };
-    requestAnimationFrame(step);
-  }
-
-  // 3D tilt on hover
-  const frame = about.querySelector('.photo-frame');
-  if(frame){
-    frame.addEventListener('mousemove',(e)=>{
-      const rect = frame.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      frame.style.transform = `rotateY(${x*10}deg) rotateX(${-y*10}deg)`;
-    });
-    frame.addEventListener('mouseleave',()=>{
-      frame.style.transform = `rotateY(0deg) rotateX(0deg)`;
-    });
-  }
-})();
-
-
-    </script>
-
-    <!-- SKILLS -->
-    <section id="skills" class="section skills">
-      <div class="skills-bg" aria-hidden="true"></div>
-    
-      <div class="container">
-        <header class="skills-header">
-          <h2 class="reveal-title">Skills &amp; Expertise — My Tech Galaxy</h2>
-          <p class="lead-muted reveal-text">
-            Explore my technical universe — filter by category to see my strengths 🌌
-          </p>
-    
-          <!-- Filter buttons -->
-          <div class="skills-filter">
-            <button class="filter-btn active" data-category="all">All</button>
-            <button class="filter-btn" data-category="frontend">Frontend</button>
-            <button class="filter-btn" data-category="backend">Backend</button>
-            <button class="filter-btn" data-category="tools">Tools</button>
-          </div>
-        </header>
-    
-        <!-- Skill cards -->
-        <div class="skills-grid">
-          <!-- FRONTEND -->
-          <div class="skill-card" data-category="frontend" data-skill="HTML" data-level="95">
-            <div class="skill-icon">🌐</div><div class="skill-title">HTML</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <div class="skill-card" data-category="frontend" data-skill="CSS" data-level="90">
-            <div class="skill-icon">🎨</div><div class="skill-title">CSS</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <div class="skill-card" data-category="frontend" data-skill="JavaScript" data-level="92">
-            <div class="skill-icon">⚡</div><div class="skill-title">JavaScript</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <div class="skill-card" data-category="frontend" data-skill="React.js" data-level="90">
-            <div class="skill-icon">⚛️</div><div class="skill-title">React.js</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <div class="skill-card" data-category="frontend" data-skill="Three.js" data-level="75">
-            <div class="skill-icon">🌀</div><div class="skill-title">Three.js</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <!-- BACKEND -->
-          <div class="skill-card" data-category="backend" data-skill="Node.js" data-level="85">
-            <div class="skill-icon">🟢</div><div class="skill-title">Node.js</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <div class="skill-card" data-category="backend" data-skill="Express.js" data-level="85">
-            <div class="skill-icon">🚀</div><div class="skill-title">Express.js</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <div class="skill-card" data-category="backend" data-skill="MongoDB" data-level="80">
-            <div class="skill-icon">🍃</div><div class="skill-title">MongoDB</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <div class="skill-card" data-category="backend" data-skill="SQL" data-level="75">
-            <div class="skill-icon">🗄️</div><div class="skill-title">SQL</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <div class="skill-card" data-category="backend" data-skill="REST API" data-level="80">
-            <div class="skill-icon">🔗</div><div class="skill-title">REST API</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <!-- TOOLS -->
-          <div class="skill-card" data-category="tools" data-skill="AWS" data-level="70">
-            <div class="skill-icon">☁️</div><div class="skill-title">AWS</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <div class="skill-card" data-category="tools" data-skill="GitHub" data-level="85">
-            <div class="skill-icon">🐙</div><div class="skill-title">GitHub</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
-    
-          <div class="skill-card" data-category="tools" data-skill="VS Code" data-level="90">
-            <div class="skill-icon">🧩</div><div class="skill-title">VS Code</div>
-            <div class="skill-meter"><div class="skill-fill"></div><div class="skill-percent">0%</div></div>
-          </div>
+  <!-- Skills Section -->
+  <section id="skills" class="skills skills-tabs" aria-labelledby="skills-heading">
+    <div class="container">
+      <h2 id="skills-heading" class="section-title">Skills & <span>Technologies</span></h2>
+  
+      <div class="tabs">
+  
+        <!-- RADIO CONTROLS (screen accessible, visually hidden) -->
+        <input type="radio" name="skilltab" id="tab-1" class="tab-input" checked>
+        <input type="radio" name="skilltab" id="tab-2" class="tab-input">
+        <input type="radio" name="skilltab" id="tab-3" class="tab-input">
+        <input type="radio" name="skilltab" id="tab-4" class="tab-input">
+  
+        <!-- VISIBLE TAB LIST -->
+        <div class="tab-list" role="tablist" aria-label="Skill categories">
+          <label role="tab" aria-controls="panel-1" for="tab-1" class="tab" tabindex="0">Frontend</label>
+          <label role="tab" aria-controls="panel-2" for="tab-2" class="tab" tabindex="0">Backend</label>
+          <label role="tab" aria-controls="panel-3" for="tab-3" class="tab" tabindex="0">Cloud & DevOps</label>
+          <label role="tab" aria-controls="panel-4" for="tab-4" class="tab" tabindex="0">UI / UX</label>
         </div>
-      </div>
-    </section>
-    
-    
-
-    <script>
-      /* === Skills Animation === */
-/* === Skills: reveal + animated percentage meters === */
-(function(){
-  const skillsSection = document.getElementById('skills');
-  if(!skillsSection) return;
-
-  const cards = Array.from(skillsSection.querySelectorAll('.skill-card'));
-
-  // IntersectionObserver to reveal cards and animate meters
-  const obs = new IntersectionObserver((entries, o) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        const card = entry.target;
-        card.classList.add('is-visible');
-
-        // animate percentage meter
-        const fill = card.querySelector('.skill-fill');
-        const percent = card.getAttribute('data-level') || card.dataset.level || 0;
-        const percentLabel = card.querySelector('.skill-percent');
-        if(fill && percent){
-          // small timeout to allow CSS transition stagger to take effect
-          setTimeout(()=>{
-            fill.style.width = percent + '%';
-            // animate numeric counter in percent label
-            if(percentLabel){
-              let start = 0;
-              const duration = 1000; // ms
-              const startTime = performance.now();
-              (function animate(now){
-                const t = Math.min(1, (now - startTime)/duration);
-                // easeOutCubic
-                const eased = 1 - Math.pow(1 - t, 3);
-                const current = Math.round(eased * percent);
-                percentLabel.textContent = current + '%';
-                if(t < 1) requestAnimationFrame(animate);
-              })(performance.now());
-            }
-          }, 120);
-        }
-
-        o.unobserve(card);
-      }
-    });
-  }, { threshold: 0.18 });
-
-  cards.forEach(c => obs.observe(c));
-
-  // Hover tilt for each card
-  cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transform = `rotateY(${x * 10}deg) rotateX(${ -y * 8 }deg) scale(1.03)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-    });
-  });
-})();
-
-    </script>
-
-    <!-- PROJECTS -->
-    <section id="projects" class="section projects">
-      <div class="projects-bg" aria-hidden="true"></div>
-    
-      <div class="container">
-        <header class="projects-header">
-          <h2 class="reveal-title">Featured Projects</h2>
-          <p class="lead-muted reveal-text">
-            Explore my latest creations — crafted with modern tools and creative precision.
-          </p>
-        </header>
-    
-        <div class="projects-grid">
-          <!-- Project 1 -->
-          <article class="project card reveal-project" data-theme="blue">
-            <div class="project-media">
-              <img src="Screenshot 2025-10-08 at 9.15.41 AM.png" alt="KVS Academy Project Screenshot">
-              <div class="pattern pattern-1"></div>
-            </div>
-            <div class="project-body">
-              <h3>KVS Academy</h3>
-              <p>
-                A modern educational platform designed to simplify online learning with interactive lessons, 
-                student progress tracking, and live sessions for teachers.
-              </p>
-              <div class="tags"><span>React</span><span>Firebase</span><span>CSS</span></div>
-              <a href="https://www.kvsacademy.org" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-link">Live Demo</a>
+  
+        <!-- PANELS: each panel corresponds to a radio above -->
+        <div class="panels">
+  
+          <article id="panel-1" class="panel panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0">
+            <div class="panel-grid">
+              <div class="radial">
+                <!-- SVG radial meter: adjust --pct inline (0-100) -->
+                <svg viewBox="0 0 110 110" class="radial-svg" aria-hidden="true">
+                  <circle class="ring" cx="55" cy="55" r="45"></circle>
+                  <circle class="progress" cx="55" cy="55" r="45" style="--pct:90;"></circle>
+                </svg>
+                <div class="radial-label">
+                  <strong>Frontend</strong>
+                  <span>90%</span>
+                </div>
+              </div>
+  
+              <div class="panel-body">
+                <h3>Frontend Development</h3>
+                <p class="card-desc">Building pixel-perfect, accessible UIs and component systems using React, TypeScript and modern frameworks.</p>
+                <div class="skill-tags"><span>React</span><span>TypeScript</span><span>Next.js</span><span>Tailwind</span></div>
+              </div>
             </div>
           </article>
-    
-          <!-- Project 2 -->
-          <article class="project card reveal-project" data-theme="purple">
-            <div class="project-media">
-              <img src="Screenshot 2025-10-08 at 9.16.19 AM.png" alt="Zorko Franchise Project Screenshot">
-              <div class="pattern pattern-2"></div>
-            </div>
-            <div class="project-body">
-              <h3>Zorko Franchise</h3>
-              <p>
-                A full-stack web application for managing franchise operations, featuring product listings, 
-                real-time analytics, and integrated payment systems.
-              </p>
-              <div class="tags"><span>Node.js</span><span>Express</span><span>MongoDB</span></div>
-              <a href="https://zorkofranchise.in" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-link">Live Demo</a>
-            </div>
-          </article>
-    
-          <!-- Project 3 -->
-          <article class="project card reveal-project" data-theme="pink">
-            <div class="project-media">
-              <img src="Screenshot 2025-10-08 at 9.16.55 AM.png" alt="Astrology Insights Project Screenshot">
-              <div class="pattern pattern-3"></div>
-            </div>
-            <div class="project-body">
-              <h3>Astrology Insights</h3>
-              <p>
-                A personalized astrology web app offering daily predictions, birth-chart analysis, 
-                and AI-based horoscope recommendations.
-              </p>
-              <div class="tags"><span>Next.js</span><span>API</span><span>OpenAI</span></div>
-              <a href="https://thegurujibengali.online" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-link">Live Demo</a>
+  
+          <article id="panel-2" class="panel panel-2" role="tabpanel" aria-labelledby="tab-2" tabindex="0">
+            <div class="panel-grid">
+              <div class="radial">
+                <svg viewBox="0 0 110 110" class="radial-svg" aria-hidden="true">
+                  <circle class="ring" cx="55" cy="55" r="45"></circle>
+                  <circle class="progress" cx="55" cy="55" r="45" style="--pct:85;"></circle>
+                </svg>
+                <div class="radial-label">
+                  <strong>Backend</strong>
+                  <span>85%</span>
+                </div>
+              </div>
+  
+              <div class="panel-body">
+                <h3>Backend Development</h3>
+                <p class="card-desc">APIs, data modeling, auth and performant services — Node.js & Python with relational and NoSQL DBs.</p>
+                <div class="skill-tags"><span>Node.js</span><span>Python</span><span>Postgres</span><span>MongoDB</span></div>
+              </div>
             </div>
           </article>
-    
-          <!-- Project 4 -->
-          <article class="project card reveal-project" data-theme="green">
-            <div class="project-media">
-              <img src="Screenshot 2025-10-08 at 9.16.31 AM.png" alt="Mind-Mint Media Project Screenshot">
-              <div class="pattern pattern-4"></div>
-            </div>
-            <div class="project-body">
-              <h3>Mind-Mint Media</h3>
-              <p>
-                A sleek digital media portfolio for content creators — featuring interactive galleries, 
-                video integration, and a CMS-powered blog.
-              </p>
-              <div class="tags"><span>React</span><span>GSAP</span><span>Firebase</span></div>
-              <a href="https://mindmintmedia.in" target="_blank" rel="noopener noreferrer" class="btn btn-primary project-link">Live Demo</a>
+  
+          <article id="panel-3" class="panel panel-3" role="tabpanel" aria-labelledby="tab-3" tabindex="0">
+            <div class="panel-grid">
+              <div class="radial">
+                <svg viewBox="0 0 110 110" class="radial-svg" aria-hidden="true">
+                  <circle class="ring" cx="55" cy="55" r="45"></circle>
+                  <circle class="progress" cx="55" cy="55" r="45" style="--pct:78;"></circle>
+                </svg>
+                <div class="radial-label">
+                  <strong>Cloud</strong>
+                  <span>78%</span>
+                </div>
+              </div>
+  
+              <div class="panel-body">
+                <h3>Cloud & DevOps</h3>
+                <p class="card-desc">Infrastructure as code, containerization and automated CI/CD pipelines for resilient systems.</p>
+                <div class="skill-tags"><span>AWS</span><span>Docker</span><span>CI/CD</span><span>Kubernetes</span></div>
+              </div>
             </div>
           </article>
-        </div>
-      </div>
-    </section>
-    
-    
-    
-     <script>
-      /* === Projects: Reveal on Scroll Animation === */
-/* === Projects Reveal Animation === */
-(function(){
-  const projects = document.querySelectorAll('.project.card');
-  const obs = new IntersectionObserver((entries, o)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add('is-visible');
-        o.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.3 });
-  projects.forEach(p => obs.observe(p));
-})();
-
-
-    </script> 
-
-  <!-- review section -->
+  
+          <article id="panel-4" class="panel panel-4" role="tabpanel" aria-labelledby="tab-4" tabindex="0">
+            <div class="panel-grid">
+              <div class="radial">
+                <svg viewBox="0 0 110 110" class="radial-svg" aria-hidden="true">
+                  <circle class="ring" cx="55" cy="55" r="45"></circle>
+                  <circle class="progress" cx="55" cy="55" r="45" style="--pct:82;"></circle>
+                </svg>
+                <div class="radial-label">
+                  <strong>Design</strong>
+                  <span>82%</span>
+                </div>
+              </div>
+  
+              <div class="panel-body">
+                <h3>UI / UX Design</h3>
+                <p class="card-desc">Design systems, prototyping, and accessibility-first UIs using Figma and user research inputs.</p>
+                <div class="skill-tags"><span>Figma</span><span>Design Systems</span><span>A11y</span><span>Prototyping</span></div>
+              </div>
+            </div>
+          </article>
+  
+        </div> <!-- .panels -->
+      </div> <!-- .tabs -->
+    </div> <!-- .container -->
+  </section>
   
   
 
-    <!-- CONTACT -->
-    <section id="contact" class="section contact">
-      <div class="container grid-two">
-        <div class="contact-left">
-          <h2>Let's Create Together</h2>
-          <p class="lead-muted">Have a project in mind? Let's discuss how we can bring your vision to life.</p>
-          <div class="glass contact-form card">
-            <form id="contactForm">
-              <label>Name<input type="text" name="name" placeholder="Your name" required></label>
-              <label>Email<input type="email" name="email" placeholder="you@email.com" required></label>
-              <label>Message<textarea name="message" placeholder="Tell me about your project..." rows="6"></textarea></label>
-              <button class="btn btn-primary" type="submit">Send Message ✈️</button>
-            </form>
+  <!-- Projects Section -->
+  <section id="work" class="projects">
+    <h2 class="section-title">Featured <span>Projects</span></h2>
+  
+    <div class="project-grid">
+      <article class="project-card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30" alt="E-Commerce App Screenshot">
+          <div class="card-overlay">
+            <h3>E-Commerce Platform</h3>
+            <p>Full-featured e-commerce app with payment gateway & admin dashboard.</p>
+            <a href="#" class="btn primary">Live Demo</a>
           </div>
         </div>
-
-        <div class="contact-right">
-          <div class="glass card contact-info">
-            <h3>Available for contract & full-time</h3>
-            <p>Open to remote and hybrid opportunities. I enjoy building products from concept to launch.</p>
-            <ul>
-              <li>Location: Remote</li>
-              <li>Role: Full-Stack Developer</li>
-              <li>Stack: React, Node, Next, Three.js</li>
-            </ul>
-            <a href="mailto:your.email@example.com" class="btn btn-ghost">Email Me</a>
+      </article>
+  
+      <article class="project-card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1554168825-8a57d7b1c5b1" alt="Task Management App">
+          <div class="card-overlay">
+            <h3>Task Management App</h3>
+            <p>Collaborative task manager with real-time updates and team boards.</p>
+            <a href="#" class="btn primary">Live Demo</a>
           </div>
         </div>
+      </article>
+  
+      <article class="project-card">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d" alt="Weather App">
+          <div class="card-overlay">
+            <h3>Weather App</h3>
+            <p>Real-time weather forecast with geolocation & dynamic visuals.</p>
+            <a href="#" class="btn primary">Live Demo</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+  
+  
+  <!-- Contact Section -->
+  <footer id="contact" class="footer">
+    <!-- decorative wave - sits above footer -->
+    <svg class="footer-wave" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,16 C150,120 350,0 600,24 C850,48 1050,12 1200,88 L1200,120 L0,120 Z"></path>
+    </svg>
+  
+    <div class="footer-inner">
+      <div class="footer-left">
+        <h2 class="footer-title">Let's Work <span>Together</span></h2>
+        <p class="footer-tag">I'm always open to new opportunities and collaborations. Reach out — I reply quickly!</p>
+  
+        <div class="contact-row">
+          <a class="contact-mail" href="mailto:hello@example.com" aria-label="Send email to hello@example.com">
+            <!-- simple mail icon + text -->
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11zM4.8 6.4l6.2 4.4 6.2-4.4H4.8z"></path></svg>
+            <span>Manishbeniwal349@gmail.com</span>
+          </a>
+        </div>
       </div>
-    </section>
-
-    <footer class="footer">
-      <div class="container">
-        <small>© <span id="year"></span> Manish — Full-Stack Developer</small>
+  
+      <div class="footer-right">
+        <div class="socials" role="navigation" aria-label="Social links">
+          <a class="social-btn" href="#" aria-label="Visit GitHub profile">
+            <!-- GitHub SVG -->
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.6-4-1.6-.5-1.3-1.1-1.7-1.1-1.7-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.2 3 .9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.9 0-1.3.5-2.4 1.2-3.3-.1-.3-.5-1.4.1-2.9 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17 5 18 5.3 18 5.3c.6 1.5.2 2.6.1 2.9.7.9 1.2 2 1.2 3.3 0 4.6-2.7 5.6-5.3 5.9.4.3.8 1 .8 2v3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+          </a>
+  
+          <a class="social-btn" href="#" aria-label="Visit LinkedIn profile">
+            <!-- LinkedIn SVG -->
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5A2.5 2.5 0 0 1 7.48 6 2.5 2.5 0 0 1 4.98 8.5 2.5 2.5 0 0 1 2.48 6 2.5 2.5 0 0 1 4.98 3.5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-.9 1.8-1.8 3.6-1.8 3.8 0 4.5 2.5 4.5 5.8V21H19v-5c0-1.2 0-2.8-1.7-2.8-1.7 0-2 1.3-2 2.7V21H11V9z"/></svg>
+          </a>
+  
+          <a class="social-btn" href="#" aria-label="Visit Twitter profile">
+            <!-- Twitter SVG -->
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 7.5c-.6.3-1.3.5-2 .6.7-.4 1.2-1 1.5-1.8-.6.4-1.4.7-2.2.9A3.7 3.7 0 0012 10.5 10.5 10.5 0 016 8.2a3.7 3.7 0 001.1 5 3.6 3.6 0 01-1.7-.5v.1c0 1.8 1.3 3.3 3 3.6-.5.2-1 .2-1.5.1.4 1.2 1.6 2 3 2A7.6 7.6 0 014 19.5a10.8 10.8 0 006 1.8c7.2 0 11.1-6 11.1-11.2v-.5A7.9 7.9 0 0020 7.5z"/></svg>
+          </a>
+  
+          <a class="social-btn" href="mailto:manishbeniwal349@gmail.com" aria-label="Send email">
+            <!-- mail SVG -->
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11zM4.8 6.4l6.2 4.4 6.2-4.4H4.8z"/></svg>
+          </a>
+        </div>
       </div>
-    </footer>
-  </main>
+    </div>
+  
+    <div class="footer-bottom">
+      <p class="copyright">© 2025 Portfolio. Made with <span aria-hidden="true">❤️</span> by Full Stack Developer</p>
+    </div>
+  </footer>
+  
 
   <script src="index.js"></script>
 </body>
